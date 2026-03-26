@@ -28,6 +28,9 @@ interface ProfileDao {
     @Query("SELECT COUNT(*) FROM profiles")
     suspend fun count(): Int
 
+    @Query("SELECT id FROM profiles")
+    suspend fun getAllIds(): List<Long>
+
     @Query("DELETE FROM profiles")
     suspend fun deleteAll()
 }

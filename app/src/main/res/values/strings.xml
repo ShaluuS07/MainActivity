@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">matrimony.com</string>
+    <string name="splash_content_description">Matrimony splash illustration</string>
     <string name="my_matches">Hi Arjun</string>
     <string name="open_gesture_screen">Open gesture screen</string>
     <string name="yes">Yes</string>

@@ -25,8 +25,7 @@ class MyApplication : Application() {
         super.onCreate()
         val dao = ProfileDatabase.getInstance(this).profileDao()
         val dismissStore = ProfileDismissStore(this)
-        // Finish seeding before any Activity/Fragment observes Room — async launch caused
-        // partial counts (9, 15, …) on first emissions. This blocks briefly on IO only.
+        dismissStore.clearAll()
         runBlocking(Dispatchers.IO) {
             seedIfNeeded(dao, dismissStore)
         }
@@ -44,8 +43,10 @@ class MyApplication : Application() {
             dao.insertAll(ProfileSeed.data)
             prefs.edit().putInt(KEY_SEED_VERSION, CURRENT_SEED_VERSION).apply()
         } else if (dao.count() == 0) {
+            dismissStore.clearAll()
             dao.insertAll(ProfileSeed.data)
         }
+        dismissStore.retainOnlyExistingIds(dao.getAllIds().toSet())
     }
 
     companion object {

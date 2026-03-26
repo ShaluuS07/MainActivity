@@ -64,8 +64,6 @@ dependencies {
     implementation(libs.androidx.navigation.ui)
     implementation(libs.coil)
     implementation(libs.coil.compose)
-    implementation(libs.androidx.media3.exoplayer)
-    implementation(libs.androidx.media3.ui)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)

@@ -29,6 +29,20 @@ class ProfileDismissStore(context: Context) {
         _dismissedIds.value = emptySet()
     }
 
+    /**
+     * Removes dismissed ids that no longer exist in Room (e.g. DB wiped by migration while prefs kept ids).
+     */
+    fun retainOnlyExistingIds(validIds: Set<Long>) {
+        val next = _dismissedIds.value.intersect(validIds)
+        if (next == _dismissedIds.value) return
+        if (next.isEmpty()) {
+            prefs.edit().remove(KEY_SET).apply()
+        } else {
+            prefs.edit().putStringSet(KEY_SET, next.map { it.toString() }.toSet()).apply()
+        }
+        _dismissedIds.value = next
+    }
+
     companion object {
         private const val PREFS = "matrimony_profile_dismiss"
         private const val KEY_SET = "dismissed_ids"
