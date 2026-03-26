@@ -9,7 +9,7 @@
 
         <variable
             name="vm"
-            type="com.example.mainactivity.ui.home.HomeViewModel" />
+            type="com.example.mainactivity.mvvm.home.viewmodel.HomeViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

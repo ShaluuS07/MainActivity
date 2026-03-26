@@ -1,6 +1,4 @@
-package com.example.mainactivity.ui
-
-import com.example.mainactivity.data.local.ProfileEntity
+package com.example.mainactivity.data.local
 
 data class ProfileUi(
     val id: Long,

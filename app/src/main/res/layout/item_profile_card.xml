@@ -7,7 +7,7 @@
 
         <variable
             name="profile"
-            type="com.example.mainactivity.ui.ProfileUi" />
+            type="com.example.mainactivity.data.local.ProfileUi" />
     </data>
 
     <FrameLayout

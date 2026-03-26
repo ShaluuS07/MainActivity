@@ -1,10 +1,10 @@
-package com.example.mainactivity.ui.profile
+package com.example.mainactivity.mvvm.profile.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.mainactivity.data.ProfileRepository
-import com.example.mainactivity.ui.ProfileUi
-import com.example.mainactivity.ui.toUi
+import com.example.mainactivity.mvvm.profile.ProfileRepository
+import com.example.mainactivity.data.local.ProfileUi
+import com.example.mainactivity.data.local.toUi
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map

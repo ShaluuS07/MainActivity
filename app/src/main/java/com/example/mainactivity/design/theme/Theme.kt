@@ -1,4 +1,4 @@
-package com.example.mainactivity.ui.theme
+package com.example.mainactivity.design.theme
 
 import android.app.Activity
 import android.os.Build
@@ -57,7 +57,8 @@ fun MainActivityTheme(
         SideEffect {
             val window = (view.context as Activity).window
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = false
-            window.statusBarColor = MatrimonyPrimaryDark.toArgb()
+            @Suppress("DEPRECATION")
+            window.statusBarColor = Color.Transparent.toArgb()
         }
     }
 

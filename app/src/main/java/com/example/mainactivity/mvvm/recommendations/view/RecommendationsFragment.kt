@@ -1,4 +1,4 @@
-package com.example.mainactivity.ui.gesture
+package com.example.mainactivity.mvvm.recommendations.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -16,12 +16,13 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
-import com.example.mainactivity.MainActivity
-import com.example.mainactivity.MyApplication
+import com.example.mainactivity.activity.MainActivity
+import com.example.mainactivity.activity.MyApplication
 import com.example.mainactivity.R
 import com.example.mainactivity.core.viewModelsOf
-import com.example.mainactivity.ui.profile.ProfileDetailsFragment
-import com.example.mainactivity.ui.theme.MainActivityTheme
+import com.example.mainactivity.design.theme.MainActivityTheme
+import com.example.mainactivity.mvvm.profile.view.ProfileDetailsFragment
+import com.example.mainactivity.mvvm.recommendations.viewmodel.GestureViewModel
 import kotlinx.coroutines.launch
 
 class RecommendationsFragment : Fragment() {

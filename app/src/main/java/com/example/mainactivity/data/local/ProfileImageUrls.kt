@@ -1,9 +1,6 @@
-package com.example.mainactivity.ui
+package com.example.mainactivity.data.local
 
-/**
- * Portrait URLs for each profile (Indian / South Asian stock from Pexels & Unsplash, plus
- * randomuser.me women portraits to fill the gallery). Requires [android.permission.INTERNET].
- */
+
 object ProfileImageUrls {
 
     private const val RANDOM_USER_WOMEN = "https://randomuser.me/api/portraits/women/"
@@ -16,9 +13,7 @@ object ProfileImageUrls {
 
     private fun randomUser(index: Int) = "$RANDOM_USER_WOMEN$index.jpg"
 
-    /** 100 distinct URLs: 5 per profile × 20 profiles. */
     private val allUrls: List<String> = buildList {
-        // Pexels — Indian / South Asian women & bridal (free stock)
         val pexelsIds = listOf(
             1446161L, 14829695L, 2647744L, 1580272L, 2747267L, 725458L, 2739792L,
             4428288L, 4456255L, 7685494L, 7685509L, 36477202L, 36041239L, 5872667L,
@@ -28,7 +23,6 @@ object ProfileImageUrls {
         )
         pexelsIds.forEach { add(pexels(it)) }
 
-        // Unsplash — “Indian woman portrait” search results (sari / traditional / portrait)
         val unsplashSlugs = listOf(
             "1667382137969-a11fd256717d",
             "1624077292049-3ff1417810de",
@@ -47,7 +41,6 @@ object ProfileImageUrls {
         )
         unsplashSlugs.forEach { add(unsplash(it)) }
 
-        // Fill to 100 with distinct randomuser women portraits (indices 0–54)
         for (i in 0..54) {
             add(randomUser(i))
         }
@@ -57,7 +50,6 @@ object ProfileImageUrls {
         check(allUrls.size == 100) { "Expected 100 gallery URLs, got ${allUrls.size}" }
     }
 
-    /** Five photos per profile for carousel / preview. */
     fun urlsForProfile(profileId: Long): List<String> {
         require(profileId in 1L..20L) { "profileId must be 1..20" }
         val start = ((profileId - 1) * 5).toInt()

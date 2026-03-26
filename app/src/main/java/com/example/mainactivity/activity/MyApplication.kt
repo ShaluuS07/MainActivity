@@ -1,8 +1,8 @@
-package com.example.mainactivity
+package com.example.mainactivity.activity
 
 import android.app.Application
 import android.content.Context
-import com.example.mainactivity.data.ProfileRepository
+import com.example.mainactivity.mvvm.profile.ProfileRepository
 import com.example.mainactivity.data.local.ProfileDatabase
 import com.example.mainactivity.data.local.ProfileSeed
 import kotlinx.coroutines.CoroutineScope

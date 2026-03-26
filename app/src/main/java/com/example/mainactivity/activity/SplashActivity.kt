@@ -1,4 +1,4 @@
-package com.example.mainactivity
+package com.example.mainactivity.activity
 
 import android.content.Intent
 import android.os.Bundle
@@ -11,6 +11,7 @@ import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.PlayerView
+import com.example.mainactivity.R
 
 
 class SplashActivity : AppCompatActivity() {

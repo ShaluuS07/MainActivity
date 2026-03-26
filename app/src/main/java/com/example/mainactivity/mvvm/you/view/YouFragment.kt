@@ -1,4 +1,4 @@
-package com.example.mainactivity.ui.you
+package com.example.mainactivity.mvvm.you.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
-import com.example.mainactivity.ui.theme.MainActivityTheme
+import com.example.mainactivity.design.theme.MainActivityTheme
 
 class YouFragment : Fragment() {
 

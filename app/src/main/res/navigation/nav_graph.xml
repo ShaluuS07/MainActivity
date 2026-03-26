@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.mainactivity.ui.home.HomeFragment"
+        android:name="com.example.mainactivity.mvvm.home.view.HomeFragment"
         android:label="@string/bottom_nav_home">
         <action
             android:id="@+id/action_homeFragment_to_profileDetailsFragment"
@@ -15,7 +15,7 @@
 
     <fragment
         android:id="@+id/recommendationsFragment"
-        android:name="com.example.mainactivity.ui.gesture.RecommendationsFragment"
+        android:name="com.example.mainactivity.mvvm.recommendations.view.RecommendationsFragment"
         android:label="@string/daily_recommendations">
         <action
             android:id="@+id/action_recommendationsFragment_to_profileDetailsFragment"
@@ -24,12 +24,12 @@
 
     <fragment
         android:id="@+id/youFragment"
-        android:name="com.example.mainactivity.ui.you.YouFragment"
+        android:name="com.example.mainactivity.mvvm.you.view.YouFragment"
         android:label="@string/bottom_nav_you" />
 
     <fragment
         android:id="@+id/profileDetailsFragment"
-        android:name="com.example.mainactivity.ui.profile.ProfileDetailsFragment"
+        android:name="com.example.mainactivity.mvvm.profile.view.ProfileDetailsFragment"
         android:label="ProfileDetails">
         <argument
             android:name="profileId"

@@ -1,6 +1,8 @@
-package com.example.mainactivity.ui.you
+package com.example.mainactivity.mvvm.you.view
 
-import android.widget.Toast
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -46,6 +48,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -61,10 +64,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.mainactivity.R
-import com.example.mainactivity.ui.theme.MatrimonyAccent
-import com.example.mainactivity.ui.theme.MatrimonyPrimary
-import com.example.mainactivity.ui.theme.MatrimonyPrimaryDark
-import com.example.mainactivity.ui.theme.MatrimonyPrimaryLight
+import com.example.mainactivity.design.theme.MatrimonyAccent
+import com.example.mainactivity.design.theme.MatrimonyPrimary
+import com.example.mainactivity.design.theme.MatrimonyPrimaryDark
+import com.example.mainactivity.design.theme.MatrimonyPrimaryLight
+import kotlinx.coroutines.launch
 
 private data class DemoProfile(
     val name: String,
@@ -89,8 +93,12 @@ private val demoProfile = DemoProfile(
 @Composable
 fun YouScreen() {
     val context = LocalContext.current
-    val toastSoon: () -> Unit = {
-        Toast.makeText(context, context.getString(R.string.you_coming_soon), Toast.LENGTH_SHORT).show()
+    val snackbarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
+    val comingSoon: () -> Unit = {
+        scope.launch {
+            snackbarHostState.showSnackbar(context.getString(R.string.you_coming_soon))
+        }
     }
     val versionName = remember {
         try {
@@ -100,18 +108,24 @@ fun YouScreen() {
         }
     }
 
-    Surface(
+    Scaffold(
         modifier = Modifier.fillMaxSize(),
-        color = MaterialTheme.colorScheme.background,
-    ) {
-        LazyColumn(
-            modifier = Modifier.fillMaxSize(),
-            contentPadding = PaddingValues(bottom = 24.dp),
+        snackbarHost = { SnackbarHost(snackbarHostState) },
+    ) { innerPadding ->
+        Surface(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding),
+            color = MaterialTheme.colorScheme.background,
         ) {
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                contentPadding = PaddingValues(bottom = 24.dp),
+            ) {
             item {
                 YouHeroHeader(
                     profile = demoProfile,
-                    onEditProfile = toastSoon,
+                    onEditProfile = comingSoon,
                 )
             }
             item {
@@ -143,31 +157,31 @@ fun YouScreen() {
                     YouListItem(
                         icon = { Icon(Icons.Default.PersonOutline, contentDescription = null) },
                         title = stringResource(R.string.you_menu_my_profile),
-                        onClick = toastSoon,
+                        onClick = comingSoon,
                     )
                     HorizontalDivider()
                     YouListItem(
                         icon = { Icon(Icons.Default.FavoriteBorder, contentDescription = null) },
                         title = stringResource(R.string.you_menu_partner_preferences),
-                        onClick = toastSoon,
+                        onClick = comingSoon,
                     )
                     HorizontalDivider()
                     YouListItem(
                         icon = { Icon(Icons.Default.Security, contentDescription = null) },
                         title = stringResource(R.string.you_menu_privacy),
-                        onClick = toastSoon,
+                        onClick = comingSoon,
                     )
                     HorizontalDivider()
                     YouListItem(
                         icon = { Icon(Icons.Default.NotificationsNone, contentDescription = null) },
                         title = stringResource(R.string.you_menu_notifications),
-                        onClick = toastSoon,
+                        onClick = comingSoon,
                     )
                     HorizontalDivider()
                     YouListItem(
                         icon = { Icon(Icons.Default.Settings, contentDescription = null) },
                         title = stringResource(R.string.you_menu_account_settings),
-                        onClick = toastSoon,
+                        onClick = comingSoon,
                     )
                 }
             }
@@ -182,25 +196,25 @@ fun YouScreen() {
                     YouListItem(
                         icon = { Icon(Icons.AutoMirrored.Filled.HelpOutline, contentDescription = null) },
                         title = stringResource(R.string.you_menu_help),
-                        onClick = toastSoon,
+                        onClick = comingSoon,
                     )
                     HorizontalDivider()
                     YouListItem(
                         icon = { Icon(Icons.Default.PhoneInTalk, contentDescription = null) },
                         title = stringResource(R.string.you_menu_contact),
-                        onClick = toastSoon,
+                        onClick = comingSoon,
                     )
                     HorizontalDivider()
                     YouListItem(
                         icon = { Icon(Icons.Default.PeopleOutline, contentDescription = null) },
                         title = stringResource(R.string.you_menu_safety),
-                        onClick = toastSoon,
+                        onClick = comingSoon,
                     )
                     HorizontalDivider()
                     YouListItem(
                         icon = { Icon(Icons.Default.Description, contentDescription = null) },
                         title = stringResource(R.string.you_menu_terms),
-                        onClick = toastSoon,
+                        onClick = comingSoon,
                     )
                 }
             }
@@ -212,7 +226,7 @@ fun YouScreen() {
                     modifier = Modifier
                         .padding(horizontal = 16.dp)
                         .fillMaxWidth()
-                        .clickable { toastSoon() },
+                        .clickable { comingSoon() },
                     shape = RoundedCornerShape(16.dp),
                     colors = CardDefaults.cardColors(
                         containerColor = MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.35f),
@@ -249,6 +263,7 @@ fun YouScreen() {
                 )
             }
         }
+    }
     }
 }
 

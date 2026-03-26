@@ -1,4 +1,4 @@
-package com.example.mainactivity.ui.profile
+package com.example.mainactivity.mvvm.profile.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,21 +11,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.mainactivity.MyApplication
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
+import com.example.mainactivity.activity.MyApplication
 import com.example.mainactivity.core.viewModelsOf
-import com.example.mainactivity.ui.theme.MainActivityTheme
+import com.example.mainactivity.design.theme.MainActivityTheme
+import com.example.mainactivity.mvvm.profile.viewmodel.ProfileDetailsViewModel
 
 class ProfileDetailsFragment : Fragment() {
 
-    private val profileId: Long
-        get() = requireArguments().getLong(ARG_PROFILE_ID)
+    private val args: ProfileDetailsFragmentArgs by navArgs()
 
     private val viewModel: ProfileDetailsViewModel by viewModelsOf {
         ProfileDetailsViewModel(
             (requireActivity().application as MyApplication).repository,
-            profileId,
+            args.profileId,
         )
     }
 
@@ -52,6 +53,7 @@ class ProfileDetailsFragment : Fragment() {
     }
 
     companion object {
+        /** Must match [R.id.profileDetailsFragment] nav argument name. */
         const val ARG_PROFILE_ID = "profileId"
     }
 }

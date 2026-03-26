@@ -1,4 +1,4 @@
-package com.example.mainactivity.ui.home
+package com.example.mainactivity.mvvm.home.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,11 +12,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.MarginPageTransformer
-import com.example.mainactivity.MyApplication
+import com.example.mainactivity.activity.MyApplication
 import com.example.mainactivity.R
 import com.example.mainactivity.core.viewModelsOf
 import com.example.mainactivity.databinding.FragmentHomeBinding
-import com.example.mainactivity.ui.profile.ProfileDetailsFragment
+import com.example.mainactivity.mvvm.home.viewmodel.HomeViewModel
+import com.example.mainactivity.mvvm.profile.view.ProfileDetailsFragment
 import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment() {

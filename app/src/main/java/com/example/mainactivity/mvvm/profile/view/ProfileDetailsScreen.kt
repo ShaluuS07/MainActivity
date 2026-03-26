@@ -1,4 +1,4 @@
-package com.example.mainactivity.ui.profile
+package com.example.mainactivity.mvvm.profile.view
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -25,7 +25,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -39,7 +38,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.mainactivity.R
-import com.example.mainactivity.ui.ProfileUi
+import com.example.mainactivity.data.local.ProfileUi
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable

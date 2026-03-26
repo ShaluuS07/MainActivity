@@ -1,4 +1,4 @@
-package com.example.mainactivity.ui.gesture
+package com.example.mainactivity.mvvm.recommendations.view
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
@@ -66,7 +66,8 @@ import com.example.mainactivity.R
 import androidx.compose.ui.platform.LocalContext
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.example.mainactivity.ui.ProfileUi
+import com.example.mainactivity.mvvm.recommendations.viewmodel.GestureViewModel
+import com.example.mainactivity.data.local.ProfileUi
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 

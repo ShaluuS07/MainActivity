@@ -1,4 +1,4 @@
-package com.example.mainactivity.ui.home
+package com.example.mainactivity.mvvm.home.view
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.mainactivity.R
 import com.example.mainactivity.databinding.ItemProfileCardBinding
-import com.example.mainactivity.ui.ProfileUi
+import com.example.mainactivity.data.local.ProfileUi
 
 class ProfilePagerAdapter(
     private val onYes: (ProfileUi) -> Unit,

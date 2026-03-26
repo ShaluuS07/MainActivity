@@ -1,4 +1,4 @@
-package com.example.mainactivity.data
+package com.example.mainactivity.mvvm.profile
 
 import com.example.mainactivity.data.local.ProfileDao
 import com.example.mainactivity.data.local.ProfileEntity
