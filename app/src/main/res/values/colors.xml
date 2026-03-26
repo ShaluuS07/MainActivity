@@ -21,6 +21,9 @@
     <color name="home_blue_dark">#6B1038</color>
     <color name="yes_orange">#FF8A50</color>
     <color name="text_secondary">#757575</color>
+    <!-- Dark theme window / nav (Compose uses theme; XML needs explicit dark surfaces) -->
+    <color name="matrimony_dark_surface">#FF121212</color>
+    <color name="matrimony_dark_surface_variant">#FF2C2C2C</color>
     <color name="gesture_gradient_start">#26A69A</color>
     <color name="gesture_gradient_end">#00897B</color>
 </resources>

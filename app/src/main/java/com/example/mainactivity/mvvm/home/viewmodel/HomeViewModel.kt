@@ -4,10 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.mainactivity.mvvm.profile.ProfileRepository
 import com.example.mainactivity.mvvm.home.model.HomeUiState
-import com.example.mainactivity.data.local.ProfileUi
-import com.example.mainactivity.data.local.toUi
+import com.example.mainactivity.mvvm.home.HomeRepository
+import com.example.mainactivity.mvvm.profile.model.ProfileUi
+import com.example.mainactivity.mvvm.profile.model.toUi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,7 +20,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
-    private val repository: ProfileRepository,
+    private val repository: HomeRepository,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(HomeUiState.initial)
@@ -58,7 +58,7 @@ class HomeViewModel(
     fun removeProfile(profile: ProfileUi, accepted: Boolean) {
         viewModelScope.launch {
             val name = profile.name
-            repository.deleteById(profile.id)
+            repository.dismiss(profile.id)
             _toastEvents.emit(name to accepted)
         }
     }

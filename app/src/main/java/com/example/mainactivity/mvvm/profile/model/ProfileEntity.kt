@@ -1,4 +1,4 @@
-package com.example.mainactivity.data.local
+package com.example.mainactivity.mvvm.profile.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

@@ -28,7 +28,7 @@ import kotlinx.coroutines.launch
 class RecommendationsFragment : Fragment() {
 
     private val viewModel: GestureViewModel by viewModelsOf {
-        GestureViewModel((requireActivity().application as MyApplication).repository)
+        GestureViewModel((requireActivity().application as MyApplication).recommendationsRepository)
     }
 
     override fun onCreateView(

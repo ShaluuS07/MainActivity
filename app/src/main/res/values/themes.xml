@@ -6,9 +6,11 @@
         <item name="colorPrimaryContainer">@color/matrimony_primary_light</item>
         <item name="colorOnPrimary">@color/matrimony_on_primary</item>
         <item name="colorSurface">@color/white</item>
-        <item name="android:statusBarColor">@color/matrimony_primary_dark</item>
-        <item name="android:navigationBarColor">@color/white</item>
-        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowBackground">@drawable/home_header_gradient</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar">true</item>
     </style>
 
     <style name="Theme.Splash" parent="Theme.Material3.Dark.NoActionBar">

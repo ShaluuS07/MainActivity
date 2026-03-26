@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="home_header_content_padding_top">16dp</dimen>
     <dimen name="viewpager_page_margin">12dp</dimen>
     <dimen name="viewpager_padding">32dp</dimen>
     <!-- Space between profile details block and Yes/No row on Home card -->

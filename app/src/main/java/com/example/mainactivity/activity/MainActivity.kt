@@ -1,5 +1,6 @@
 package com.example.mainactivity.activity
 
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
@@ -24,6 +25,20 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        window.apply {
+            @Suppress("DEPRECATION")
+            statusBarColor = android.graphics.Color.TRANSPARENT
+            @Suppress("DEPRECATION")
+            navigationBarColor = android.graphics.Color.TRANSPARENT
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                isNavigationBarContrastEnforced = false
+            }
+        }
+        WindowCompat.getInsetsController(window, window.decorView).apply {
+            isAppearanceLightStatusBars = true
+            isAppearanceLightNavigationBars = true
+        }
+
         val navHost =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHost.navController
@@ -34,7 +49,7 @@ class MainActivity : AppCompatActivity() {
         findViewById<View>(R.id.nav_host_fragment)?.let { host ->
             ViewCompat.setOnApplyWindowInsetsListener(host) { v, insets ->
                 val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-                v.setPadding(bars.left, bars.top, bars.right, 0)
+                v.setPadding(bars.left, 0, bars.right, 0)
                 insets
             }
         }

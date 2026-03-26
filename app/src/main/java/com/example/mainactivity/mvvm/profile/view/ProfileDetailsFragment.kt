@@ -25,7 +25,7 @@ class ProfileDetailsFragment : Fragment() {
 
     private val viewModel: ProfileDetailsViewModel by viewModelsOf {
         ProfileDetailsViewModel(
-            (requireActivity().application as MyApplication).repository,
+            (requireActivity().application as MyApplication).profileDetailsRepository,
             args.profileId,
         )
     }

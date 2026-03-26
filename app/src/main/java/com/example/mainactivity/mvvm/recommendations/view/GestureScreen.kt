@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -27,7 +28,6 @@ import androidx.compose.material.icons.outlined.PhotoCamera
 import androidx.compose.material.icons.outlined.StarBorder
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
@@ -35,8 +35,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -67,11 +65,10 @@ import androidx.compose.ui.platform.LocalContext
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.mainactivity.mvvm.recommendations.viewmodel.GestureViewModel
-import com.example.mainactivity.data.local.ProfileUi
+import com.example.mainactivity.mvvm.profile.model.ProfileUi
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GestureScreen(
     viewModel: GestureViewModel,
@@ -81,11 +78,12 @@ fun GestureScreen(
     val profiles by viewModel.profiles.collectAsState()
     val configuration = LocalConfiguration.current
     val thresholdPx = configuration.screenWidthDp * 0.35f
+    val scheme = MaterialTheme.colorScheme
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFF2F2F2)),
+            .background(scheme.background),
     ) {
         Box(
             modifier = Modifier
@@ -100,25 +98,30 @@ fun GestureScreen(
                     ),
                 ),
         ) {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = stringResource(R.string.daily_recommendations),
-                        color = Color.White,
-                        fontWeight = FontWeight.Bold,
+            Row(
+                modifier = Modifier
+                    .statusBarsPadding()
+                    .fillMaxWidth()
+                    .height(48.dp)
+                    .padding(end = 8.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                IconButton(onClick = onBack) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = stringResource(R.string.back),
+                        tint = Color.White,
                     )
-                },
-                navigationIcon = {
-                    IconButton(onClick = onBack) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = stringResource(R.string.back),
-                            tint = Color.White,
-                        )
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent),
-            )
+                }
+                Text(
+                    text = stringResource(R.string.daily_recommendations),
+                    color = Color.White,
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 16.sp,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                )
+            }
         }
 
         Box(
@@ -131,7 +134,7 @@ fun GestureScreen(
                 Text(
                     text = stringResource(R.string.no_profiles_left),
                     style = MaterialTheme.typography.bodyLarge,
-                    color = Color(0xFF616161),
+                    color = scheme.onSurfaceVariant,
                 )
             } else {
                 val visible = profiles.take(3)
@@ -173,6 +176,7 @@ private val StackCardShape = RoundedCornerShape(20.dp)
 
 @Composable
 private fun StackGhostCard(depth: Int) {
+    val scheme = MaterialTheme.colorScheme
     val density = LocalDensity.current
     val horizontalInset = stackHorizontalInsetDp(depth)
     val scale = stackScale(depth)
@@ -193,9 +197,9 @@ private fun StackGhostCard(depth: Int) {
             }
             .offset { IntOffset(0, stackOffsetY) }
             .shadow(shadowElevation, StackCardShape, spotColor = Color(0x40000000))
-            .border(1.dp, Color(0xFFE8E8E8), StackCardShape),
+            .border(1.dp, scheme.outline.copy(alpha = 0.4f), StackCardShape),
         shape = StackCardShape,
-        colors = CardDefaults.cardColors(containerColor = Color.White),
+        colors = CardDefaults.cardColors(containerColor = scheme.surface),
         elevation = CardDefaults.cardElevation(
             defaultElevation = when (depth) {
                 1 -> 5.dp
@@ -212,7 +216,7 @@ private fun StackGhostCard(depth: Int) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(280.dp)
-                    .background(Color(0xFFF0F0F0)),
+                    .background(scheme.surfaceVariant),
             )
             Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)) {
                 Spacer(modifier = Modifier.height(8.dp))
@@ -220,24 +224,24 @@ private fun StackGhostCard(depth: Int) {
                     modifier = Modifier
                         .fillMaxWidth(0.45f)
                         .height(12.dp)
-                        .background(Color(0xFFEEEEEE), RoundedCornerShape(4.dp)),
+                        .background(scheme.surfaceVariant, RoundedCornerShape(4.dp)),
                 )
                 Spacer(modifier = Modifier.height(10.dp))
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(12.dp)
-                        .background(Color(0xFFEEEEEE), RoundedCornerShape(4.dp)),
+                        .background(scheme.surfaceVariant, RoundedCornerShape(4.dp)),
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Box(
                     modifier = Modifier
                         .fillMaxWidth(0.92f)
                         .height(12.dp)
-                        .background(Color(0xFFEEEEEE), RoundedCornerShape(4.dp)),
+                        .background(scheme.surfaceVariant, RoundedCornerShape(4.dp)),
                 )
             }
-            HorizontalDivider(color = Color(0xFFE0E0E0), thickness = 1.dp)
+            HorizontalDivider(color = scheme.outline.copy(alpha = 0.35f), thickness = 1.dp)
             Spacer(modifier = Modifier.height(12.dp))
             Row(
                 modifier = Modifier
@@ -248,18 +252,18 @@ private fun StackGhostCard(depth: Int) {
                 Box(
                     modifier = Modifier
                         .size(width = 72.dp, height = 20.dp)
-                        .background(Color(0xFFF5F5F5), RoundedCornerShape(4.dp)),
+                        .background(scheme.surfaceVariant, RoundedCornerShape(4.dp)),
                 )
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     Box(
                         modifier = Modifier
                             .size(48.dp)
-                            .background(Color(0xFFF5F5F5), CircleShape),
+                            .background(scheme.surfaceVariant, CircleShape),
                     )
                     Box(
                         modifier = Modifier
                             .size(48.dp)
-                            .background(Color(0xFFFFE0B2), CircleShape),
+                            .background(scheme.primary.copy(alpha = 0.35f), CircleShape),
                     )
                 }
             }
@@ -291,6 +295,7 @@ private fun StackedProfileCard(
 ) {
     val context = LocalContext.current
     val density = LocalDensity.current
+    val scheme = MaterialTheme.colorScheme
 
     val horizontalInset = stackHorizontalInsetDp(depth)
     val scale = stackScale(depth)
@@ -359,9 +364,9 @@ private fun StackedProfileCard(
             }
             .then(dragModifier)
             .shadow(shadowElevation, StackCardShape, spotColor = Color(0x40000000))
-            .border(1.dp, Color(0xFFE8E8E8), StackCardShape),
+            .border(1.dp, scheme.outline.copy(alpha = 0.4f), StackCardShape),
         shape = StackCardShape,
-        colors = CardDefaults.cardColors(containerColor = Color.White),
+        colors = CardDefaults.cardColors(containerColor = scheme.surface),
         elevation = CardDefaults.cardElevation(
             defaultElevation = when (depth) {
                 0 -> 10.dp
@@ -389,7 +394,7 @@ private fun StackedProfileCard(
                     contentDescription = null,
                     modifier = Modifier
                         .fillMaxSize()
-                        .background(Color(0xFFE0E0E0)),
+                        .background(scheme.surfaceVariant),
                     contentScale = ContentScale.Crop,
                 )
                 Row(
@@ -445,19 +450,19 @@ private fun StackedProfileCard(
                     text = profile.name,
                     fontSize = 22.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color.Black,
+                    color = scheme.onSurface,
                 )
                 Spacer(modifier = Modifier.height(6.dp))
                 Text(
                     text = "${profile.detailLine1} ${profile.detailLine2}",
                     fontSize = 14.sp,
-                    color = Color(0xFF616161),
+                    color = scheme.onSurfaceVariant,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
                 )
             }
 
-            HorizontalDivider(color = Color(0xFFE0E0E0), thickness = 1.dp)
+            HorizontalDivider(color = scheme.outline.copy(alpha = 0.35f), thickness = 1.dp)
 
             Row(
                 modifier = Modifier
@@ -473,12 +478,12 @@ private fun StackedProfileCard(
                     Icon(
                         imageVector = Icons.Outlined.StarBorder,
                         contentDescription = null,
-                        tint = Color(0xFF9E9E9E),
+                        tint = scheme.onSurfaceVariant,
                         modifier = Modifier.size(20.dp),
                     )
                     Text(
                         text = stringResource(R.string.shortlist),
-                        color = Color(0xFF9E9E9E),
+                        color = scheme.onSurfaceVariant,
                         fontSize = 14.sp,
                     )
                 }
@@ -488,7 +493,7 @@ private fun StackedProfileCard(
                 ) {
                     Text(
                         text = stringResource(R.string.like_her),
-                        color = Color(0xFF616161),
+                        color = scheme.onSurfaceVariant,
                         fontSize = 14.sp,
                     )
                     if (isTop) {
@@ -497,8 +502,8 @@ private fun StackedProfileCard(
                             modifier = Modifier.size(48.dp),
                             shape = CircleShape,
                             colors = IconButtonDefaults.filledIconButtonColors(
-                                containerColor = Color.White,
-                                contentColor = Color(0xFF757575),
+                                containerColor = scheme.surfaceVariant,
+                                contentColor = scheme.onSurfaceVariant,
                             ),
                         ) {
                             Icon(Icons.Default.Close, contentDescription = stringResource(R.string.no))

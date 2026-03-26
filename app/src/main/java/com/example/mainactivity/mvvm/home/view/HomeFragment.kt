@@ -6,6 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.os.bundleOf
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -26,7 +29,7 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: HomeViewModel by viewModelsOf {
-        HomeViewModel((requireActivity().application as MyApplication).repository)
+        HomeViewModel((requireActivity().application as MyApplication).homeRepository)
     }
 
     private lateinit var pagerAdapter: ProfilePagerAdapter
@@ -44,6 +47,13 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val headerPadTop = resources.getDimensionPixelSize(R.dimen.home_header_content_padding_top)
+        ViewCompat.setOnApplyWindowInsetsListener(binding.header) { v, insets ->
+            val statusTop = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top
+            v.updatePadding(top = statusTop + headerPadTop)
+            insets
+        }
 
         pagerAdapter = ProfilePagerAdapter(
             onYes = { profile -> viewModel.removeProfile(profile, accepted = true) },

@@ -12,10 +12,14 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
@@ -39,7 +43,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
@@ -110,6 +113,7 @@ fun YouScreen() {
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
+        contentWindowInsets = WindowInsets.navigationBars,
         snackbarHost = { SnackbarHost(snackbarHostState) },
     ) { innerPadding ->
         Surface(
@@ -335,6 +339,7 @@ private fun YouHeroHeader(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
+                .statusBarsPadding()
                 .padding(horizontal = 20.dp)
                 .padding(top = 16.dp, bottom = 28.dp),
         ) {
@@ -431,6 +436,29 @@ private fun MembershipChip(text: String, accent: Boolean) {
 }
 
 @Composable
+private fun CompletionProgressBar(
+    progress: Float,
+    modifier: Modifier = Modifier,
+) {
+    val shape = RoundedCornerShape(4.dp)
+    Box(
+        modifier = modifier
+            .height(8.dp)
+            .clip(shape)
+            .background(MatrimonyPrimaryLight.copy(alpha = 0.5f)),
+    ) {
+        if (progress > 0f) {
+            Box(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .fillMaxWidth(progress)
+                    .background(MatrimonyPrimary),
+            )
+        }
+    }
+}
+
+@Composable
 private fun ProfileCompletionCard(
     completion: Float,
     modifier: Modifier = Modifier,
@@ -460,14 +488,9 @@ private fun ProfileCompletionCard(
                 )
             }
             Spacer(Modifier.height(8.dp))
-            LinearProgressIndicator(
-                progress = { completion },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(8.dp)
-                    .clip(RoundedCornerShape(4.dp)),
-                color = MatrimonyPrimary,
-                trackColor = MatrimonyPrimaryLight.copy(alpha = 0.5f),
+            CompletionProgressBar(
+                progress = completion.coerceIn(0f, 1f),
+                modifier = Modifier.fillMaxWidth(),
             )
             Text(
                 text = stringResource(R.string.you_profile_completion_hint),

@@ -2,9 +2,9 @@ package com.example.mainactivity.mvvm.recommendations.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.mainactivity.mvvm.profile.ProfileRepository
-import com.example.mainactivity.data.local.ProfileUi
-import com.example.mainactivity.data.local.toUi
+import com.example.mainactivity.mvvm.recommendations.RecommendationsRepository
+import com.example.mainactivity.mvvm.profile.model.ProfileUi
+import com.example.mainactivity.mvvm.profile.model.toUi
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class GestureViewModel(
-    private val repository: ProfileRepository,
+    private val repository: RecommendationsRepository,
 ) : ViewModel() {
 
     private val _profiles = MutableStateFlow<List<ProfileUi>>(emptyList())
@@ -35,7 +35,7 @@ class GestureViewModel(
     fun removeProfile(profile: ProfileUi, accepted: Boolean) {
         viewModelScope.launch {
             val name = profile.name
-            repository.deleteById(profile.id)
+            repository.dismiss(profile.id)
             _toastEvents.emit(name to accepted)
         }
     }

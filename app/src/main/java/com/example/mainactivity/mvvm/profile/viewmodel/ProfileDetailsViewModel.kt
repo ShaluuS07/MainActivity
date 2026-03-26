@@ -2,16 +2,16 @@ package com.example.mainactivity.mvvm.profile.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.mainactivity.mvvm.profile.ProfileRepository
-import com.example.mainactivity.data.local.ProfileUi
-import com.example.mainactivity.data.local.toUi
+import com.example.mainactivity.mvvm.profile.ProfileDetailsRepository
+import com.example.mainactivity.mvvm.profile.model.ProfileUi
+import com.example.mainactivity.mvvm.profile.model.toUi
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 
 class ProfileDetailsViewModel(
-    repository: ProfileRepository,
+    repository: ProfileDetailsRepository,
     profileId: Long,
 ) : ViewModel() {
 
