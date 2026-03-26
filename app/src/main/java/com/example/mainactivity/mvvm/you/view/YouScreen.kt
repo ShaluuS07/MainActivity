@@ -1,8 +1,9 @@
 package com.example.mainactivity.mvvm.you.view
 
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -50,8 +51,11 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -60,6 +64,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import com.example.mainactivity.activity.MainActivity
+import com.example.mainactivity.mvvm.you.viewmodel.YouTabUiViewModel
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -71,7 +77,6 @@ import com.example.mainactivity.design.theme.MatrimonyAccent
 import com.example.mainactivity.design.theme.MatrimonyPrimary
 import com.example.mainactivity.design.theme.MatrimonyPrimaryDark
 import com.example.mainactivity.design.theme.MatrimonyPrimaryLight
-import kotlinx.coroutines.launch
 
 private data class DemoProfile(
     val name: String,
@@ -94,15 +99,45 @@ private val demoProfile = DemoProfile(
 )
 
 @Composable
-fun YouScreen() {
+fun YouScreen(youTabVm: YouTabUiViewModel) {
     val context = LocalContext.current
-    val snackbarHostState = remember { SnackbarHostState() }
-    val scope = rememberCoroutineScope()
-    val comingSoon: () -> Unit = {
-        scope.launch {
-            snackbarHostState.showSnackbar(context.getString(R.string.you_coming_soon))
+    var subDestination by remember { mutableStateOf<YouSubDestination?>(null) }
+    var showLogoutDialog by remember { mutableStateOf(false) }
+
+    LaunchedEffect(subDestination) {
+        (context as? MainActivity)?.setYouSubPageOpen(subDestination != null)
+    }
+
+    LaunchedEffect(Unit) {
+        youTabVm.closeSubPage.collect {
+            subDestination = null
         }
     }
+
+    if (showLogoutDialog) {
+        AlertDialog(
+            onDismissRequest = { showLogoutDialog = false },
+            title = { Text(stringResource(R.string.you_logout_title)) },
+            text = { Text(stringResource(R.string.you_logout_message)) },
+            confirmButton = {
+                TextButton(onClick = { showLogoutDialog = false }) {
+                    Text(stringResource(R.string.you_logout_ok))
+                }
+            },
+        )
+    }
+
+    val dest = subDestination
+    if (dest != null) {
+        YouSubPageScaffold(
+            title = stringResource(dest.titleRes()),
+            onBack = { subDestination = null },
+        ) {
+            dest.ContentPage()
+        }
+        return
+    }
+
     val versionName = remember {
         try {
             context.packageManager.getPackageInfo(context.packageName, 0).versionName ?: "1.0"
@@ -114,7 +149,6 @@ fun YouScreen() {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         contentWindowInsets = WindowInsets.navigationBars,
-        snackbarHost = { SnackbarHost(snackbarHostState) },
     ) { innerPadding ->
         Surface(
             modifier = Modifier
@@ -129,7 +163,7 @@ fun YouScreen() {
             item {
                 YouHeroHeader(
                     profile = demoProfile,
-                    onEditProfile = comingSoon,
+                    onEditProfile = { subDestination = YouSubDestination.EditProfile },
                 )
             }
             item {
@@ -161,31 +195,31 @@ fun YouScreen() {
                     YouListItem(
                         icon = { Icon(Icons.Default.PersonOutline, contentDescription = null) },
                         title = stringResource(R.string.you_menu_my_profile),
-                        onClick = comingSoon,
+                        onClick = { subDestination = YouSubDestination.MyProfile },
                     )
                     HorizontalDivider()
                     YouListItem(
                         icon = { Icon(Icons.Default.FavoriteBorder, contentDescription = null) },
                         title = stringResource(R.string.you_menu_partner_preferences),
-                        onClick = comingSoon,
+                        onClick = { subDestination = YouSubDestination.PartnerPreferences },
                     )
                     HorizontalDivider()
                     YouListItem(
                         icon = { Icon(Icons.Default.Security, contentDescription = null) },
                         title = stringResource(R.string.you_menu_privacy),
-                        onClick = comingSoon,
+                        onClick = { subDestination = YouSubDestination.Privacy },
                     )
                     HorizontalDivider()
                     YouListItem(
                         icon = { Icon(Icons.Default.NotificationsNone, contentDescription = null) },
                         title = stringResource(R.string.you_menu_notifications),
-                        onClick = comingSoon,
+                        onClick = { subDestination = YouSubDestination.Notifications },
                     )
                     HorizontalDivider()
                     YouListItem(
                         icon = { Icon(Icons.Default.Settings, contentDescription = null) },
                         title = stringResource(R.string.you_menu_account_settings),
-                        onClick = comingSoon,
+                        onClick = { subDestination = YouSubDestination.AccountSettings },
                     )
                 }
             }
@@ -200,25 +234,25 @@ fun YouScreen() {
                     YouListItem(
                         icon = { Icon(Icons.AutoMirrored.Filled.HelpOutline, contentDescription = null) },
                         title = stringResource(R.string.you_menu_help),
-                        onClick = comingSoon,
+                        onClick = { subDestination = YouSubDestination.Help },
                     )
                     HorizontalDivider()
                     YouListItem(
                         icon = { Icon(Icons.Default.PhoneInTalk, contentDescription = null) },
                         title = stringResource(R.string.you_menu_contact),
-                        onClick = comingSoon,
+                        onClick = { subDestination = YouSubDestination.Contact },
                     )
                     HorizontalDivider()
                     YouListItem(
                         icon = { Icon(Icons.Default.PeopleOutline, contentDescription = null) },
                         title = stringResource(R.string.you_menu_safety),
-                        onClick = comingSoon,
+                        onClick = { subDestination = YouSubDestination.Safety },
                     )
                     HorizontalDivider()
                     YouListItem(
                         icon = { Icon(Icons.Default.Description, contentDescription = null) },
                         title = stringResource(R.string.you_menu_terms),
-                        onClick = comingSoon,
+                        onClick = { subDestination = YouSubDestination.Terms },
                     )
                 }
             }
@@ -230,7 +264,7 @@ fun YouScreen() {
                     modifier = Modifier
                         .padding(horizontal = 16.dp)
                         .fillMaxWidth()
-                        .clickable { comingSoon() },
+                        .clickable { showLogoutDialog = true },
                     shape = RoundedCornerShape(16.dp),
                     colors = CardDefaults.cardColors(
                         containerColor = MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.35f),

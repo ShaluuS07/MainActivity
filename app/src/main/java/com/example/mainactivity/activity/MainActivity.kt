@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
@@ -12,6 +13,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.example.mainactivity.mvvm.you.viewmodel.YouTabUiViewModel
 import com.example.mainactivity.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -19,6 +21,8 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var navController: NavController
     private lateinit var bottomNav: BottomNavigationView
+    private val youTabVm: YouTabUiViewModel by viewModels()
+    private var youSubPageOpen: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
@@ -60,8 +64,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            bottomNav.visibility =
-                if (destination.id == R.id.profileDetailsFragment) View.GONE else View.VISIBLE
+            if (destination.id != R.id.youFragment) {
+                youSubPageOpen = false
+            }
+            updateBottomNavVisibility()
         }
 
         onBackPressedDispatcher.addCallback(
@@ -72,8 +78,17 @@ class MainActivity : AppCompatActivity() {
                         R.id.profileDetailsFragment -> {
                             navController.navigateUp()
                         }
-                        R.id.recommendationsFragment, R.id.youFragment -> {
+                        R.id.recommendationsFragment -> {
                             navigateToHomeTab()
+                        }
+                        R.id.youFragment -> {
+                            if (youSubPageOpen) {
+                                youSubPageOpen = false
+                                updateBottomNavVisibility()
+                                youTabVm.requestCloseSubPage()
+                            } else {
+                                navigateToHomeTab()
+                            }
                         }
                         R.id.homeFragment -> {
                             finish()
@@ -91,5 +106,19 @@ class MainActivity : AppCompatActivity() {
     /** Switches bottom navigation to Home (e.g. from Recommendations toolbar back). */
     fun navigateToHomeTab() {
         bottomNav.selectedItemId = R.id.homeFragment
+    }
+
+    fun setYouSubPageOpen(open: Boolean) {
+        youSubPageOpen = open
+        updateBottomNavVisibility()
+    }
+
+    private fun updateBottomNavVisibility() {
+        val dest = navController.currentDestination?.id
+        bottomNav.visibility = when {
+            dest == R.id.profileDetailsFragment -> View.GONE
+            dest == R.id.youFragment && youSubPageOpen -> View.GONE
+            else -> View.VISIBLE
+        }
     }
 }

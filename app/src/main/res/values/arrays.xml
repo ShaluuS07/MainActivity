@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="you_safety_bullets">
+        <item>Never share OTPs, passwords, or banking details with anyone on the platform.</item>
+        <item>Meet first in public places; tell a friend or family member when you meet someone new.</item>
+        <item>Use in-app messaging until you are comfortable; avoid moving to personal channels too quickly.</item>
+        <item>Report fake profiles, harassment, or requests for money using Report on any profile.</item>
+        <item>Verify your profile with ID to build trust with genuine members.</item>
+    </string-array>
+    <string-array name="you_terms_bullets_intro">
+        <item>This sample app is for demonstration only; no real matrimonial service is provided.</item>
+        <item>Do not enter real sensitive data; the app does not guarantee security of demo data.</item>
+        <item>We may update these terms; continued use means acceptance of the latest version.</item>
+    </string-array>
+    <string-array name="you_terms_bullets_privacy">
+        <item>Profile information you enter in demo fields is stored only on this device for the session.</item>
+        <item>We do not sell personal data; a production app would describe data use in full detail here.</item>
+        <item>You may request account deletion where applicable in a live product.</item>
+    </string-array>
+</resources>
