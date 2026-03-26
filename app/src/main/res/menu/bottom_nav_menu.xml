@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="AlwaysShowAction">
+
+    <item
+        android:id="@+id/homeFragment"
+        android:icon="@drawable/ic_nav_home"
+        android:title="@string/bottom_nav_home" />
+
+    <item
+        android:id="@+id/recommendationsFragment"
+        android:icon="@drawable/ic_nav_recommendations"
+        android:title="@string/bottom_nav_recommendations" />
+
+    <item
+        android:id="@+id/youFragment"
+        android:icon="@drawable/ic_nav_person"
+        android:title="@string/bottom_nav_you" />
+</menu>

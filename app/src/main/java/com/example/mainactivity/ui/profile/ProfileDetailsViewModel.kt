@@ -1,0 +1,39 @@
+package com.example.mainactivity.ui.profile
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
+import com.example.mainactivity.data.ProfileRepository
+import com.example.mainactivity.ui.ProfileUi
+import com.example.mainactivity.ui.toUi
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
+
+class ProfileDetailsViewModel(
+    private val repository: ProfileRepository,
+    private val profileId: Long,
+) : ViewModel() {
+
+    val profile: StateFlow<ProfileUi?> = repository.observeProfile(profileId)
+        .map { entity -> entity?.toUi() }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = null,
+        )
+}
+
+class ProfileDetailsViewModelFactory(
+    private val repository: ProfileRepository,
+    private val profileId: Long,
+) : ViewModelProvider.Factory {
+    @Suppress("UNCHECKED_CAST")
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(ProfileDetailsViewModel::class.java)) {
+            return ProfileDetailsViewModel(repository, profileId) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
+    }
+}

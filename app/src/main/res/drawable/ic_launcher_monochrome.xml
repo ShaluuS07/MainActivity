@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Simple heart for Android 13+ themed / monochrome launcher icon -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M54,82 C40,70 28,58 28,44 C28,34 36,26 46,26 C50,26 54,30 54,36 C54,30 58,26 62,26 C72,26 80,34 80,44 C80,58 68,70 54,82 Z" />
+</vector>
