@@ -11,20 +11,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.mainactivity.MyApplication
+import com.example.mainactivity.core.viewModelsOf
 import com.example.mainactivity.ui.theme.MainActivityTheme
 
 class ProfileDetailsFragment : Fragment() {
 
-    private val profileId: Long by lazy {
-        requireArguments().getLong(ARG_PROFILE_ID)
-    }
+    private val profileId: Long
+        get() = requireArguments().getLong(ARG_PROFILE_ID)
 
-    private val viewModel: ProfileDetailsViewModel by viewModels {
-        ProfileDetailsViewModelFactory(
+    private val viewModel: ProfileDetailsViewModel by viewModelsOf {
+        ProfileDetailsViewModel(
             (requireActivity().application as MyApplication).repository,
             profileId,
         )

@@ -1,7 +1,6 @@
 package com.example.mainactivity.ui.gesture
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.mainactivity.data.ProfileRepository
 import com.example.mainactivity.ui.ProfileUi
@@ -39,17 +38,5 @@ class GestureViewModel(
             repository.deleteById(profile.id)
             _toastEvents.emit(name to accepted)
         }
-    }
-}
-
-class GestureViewModelFactory(
-    private val repository: ProfileRepository,
-) : ViewModelProvider.Factory {
-    @Suppress("UNCHECKED_CAST")
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(GestureViewModel::class.java)) {
-            return GestureViewModel(repository) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }

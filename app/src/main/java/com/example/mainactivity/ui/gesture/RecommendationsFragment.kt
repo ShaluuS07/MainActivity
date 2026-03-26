@@ -12,7 +12,6 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -20,14 +19,15 @@ import androidx.navigation.fragment.findNavController
 import com.example.mainactivity.MainActivity
 import com.example.mainactivity.MyApplication
 import com.example.mainactivity.R
+import com.example.mainactivity.core.viewModelsOf
 import com.example.mainactivity.ui.profile.ProfileDetailsFragment
 import com.example.mainactivity.ui.theme.MainActivityTheme
 import kotlinx.coroutines.launch
 
 class RecommendationsFragment : Fragment() {
 
-    private val viewModel: GestureViewModel by viewModels {
-        GestureViewModelFactory((requireActivity().application as MyApplication).repository)
+    private val viewModel: GestureViewModel by viewModelsOf {
+        GestureViewModel((requireActivity().application as MyApplication).repository)
     }
 
     override fun onCreateView(

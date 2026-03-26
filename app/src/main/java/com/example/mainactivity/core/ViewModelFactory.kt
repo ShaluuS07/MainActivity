@@ -1,0 +1,19 @@
+package com.example.mainactivity.core
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+
+/**
+ * Single [ViewModelProvider.Factory] implementation via reified type — avoids duplicated
+ * `isAssignableFrom` / cast blocks across the app.
+ */
+inline fun <reified VM : ViewModel> viewModelFactory(crossinline create: () -> VM): ViewModelProvider.Factory =
+    object : ViewModelProvider.Factory {
+        @Suppress("UNCHECKED_CAST")
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            require(modelClass.isAssignableFrom(VM::class.java)) {
+                "Unknown ViewModel class: ${modelClass.name}; expected ${VM::class.java.name}"
+            }
+            return create() as T
+        }
+    }

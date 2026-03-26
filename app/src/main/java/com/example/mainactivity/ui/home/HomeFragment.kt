@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -15,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.MarginPageTransformer
 import com.example.mainactivity.MyApplication
 import com.example.mainactivity.R
+import com.example.mainactivity.core.viewModelsOf
 import com.example.mainactivity.databinding.FragmentHomeBinding
 import com.example.mainactivity.ui.profile.ProfileDetailsFragment
 import kotlinx.coroutines.launch
@@ -24,8 +24,8 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: HomeViewModel by viewModels {
-        HomeViewModelFactory((requireActivity().application as MyApplication).repository)
+    private val viewModel: HomeViewModel by viewModelsOf {
+        HomeViewModel((requireActivity().application as MyApplication).repository)
     }
 
     private lateinit var pagerAdapter: ProfilePagerAdapter

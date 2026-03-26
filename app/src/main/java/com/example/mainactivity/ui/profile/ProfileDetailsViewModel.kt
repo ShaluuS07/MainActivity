@@ -1,7 +1,6 @@
 package com.example.mainactivity.ui.profile
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.mainactivity.data.ProfileRepository
 import com.example.mainactivity.ui.ProfileUi
@@ -12,8 +11,8 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 
 class ProfileDetailsViewModel(
-    private val repository: ProfileRepository,
-    private val profileId: Long,
+    repository: ProfileRepository,
+    profileId: Long,
 ) : ViewModel() {
 
     val profile: StateFlow<ProfileUi?> = repository.observeProfile(profileId)
@@ -23,17 +22,4 @@ class ProfileDetailsViewModel(
             started = SharingStarted.WhileSubscribed(5_000),
             initialValue = null,
         )
-}
-
-class ProfileDetailsViewModelFactory(
-    private val repository: ProfileRepository,
-    private val profileId: Long,
-) : ViewModelProvider.Factory {
-    @Suppress("UNCHECKED_CAST")
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(ProfileDetailsViewModel::class.java)) {
-            return ProfileDetailsViewModel(repository, profileId) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
-    }
 }

@@ -2,7 +2,6 @@ package com.example.mainactivity.ui.home
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.mainactivity.data.ProfileRepository
 import com.example.mainactivity.ui.ProfileUi
@@ -29,18 +28,16 @@ class HomeViewModel(
     val showPager = MutableLiveData<Boolean>()
     val showEmpty = MutableLiveData<Boolean>()
 
+    private val _toastEvents = MutableSharedFlow<Pair<String, Boolean>>(extraBufferCapacity = 1)
+    val toastEvents: SharedFlow<Pair<String, Boolean>> = _toastEvents.asSharedFlow()
+
     init {
         pendingSubtitle.value = ""
         newBadgeText.value = ""
         newBadgeVisible.value = false
         showPager.value = false
         showEmpty.value = true
-    }
 
-    private val _toastEvents = MutableSharedFlow<Pair<String, Boolean>>(extraBufferCapacity = 1)
-    val toastEvents: SharedFlow<Pair<String, Boolean>> = _toastEvents.asSharedFlow()
-
-    init {
         viewModelScope.launch {
             repository.observeProfiles().collectLatest { list ->
                 val ui = list.map { it.toUi() }
@@ -60,16 +57,5 @@ class HomeViewModel(
             repository.deleteById(profile.id)
             _toastEvents.emit(name to accepted)
         }
-    }
-}
-
-class HomeViewModelFactory(
-    private val repository: ProfileRepository,
-) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(HomeViewModel::class.java)) {
-            return HomeViewModel(repository) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }

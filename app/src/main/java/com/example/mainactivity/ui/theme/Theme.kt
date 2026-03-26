@@ -56,8 +56,8 @@ fun MainActivityTheme(
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
-            window.statusBarColor = MatrimonyPrimaryDark.toArgb()
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = false
+            window.statusBarColor = MatrimonyPrimaryDark.toArgb()
         }
     }
 
