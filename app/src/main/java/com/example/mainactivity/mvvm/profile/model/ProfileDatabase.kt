@@ -21,7 +21,6 @@ abstract class ProfileDatabase : RoomDatabase() {
                     ProfileDatabase::class.java,
                     "profiles.db"
                 )
-                    // For production: add [androidx.room.migration.Migration] objects and remove destructive fallback.
                     .fallbackToDestructiveMigration()
                     .build()
                     .also { INSTANCE = it }

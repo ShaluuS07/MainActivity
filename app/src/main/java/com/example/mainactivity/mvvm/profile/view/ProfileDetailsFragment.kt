@@ -53,7 +53,6 @@ class ProfileDetailsFragment : Fragment() {
     }
 
     companion object {
-        /** Must match [R.id.profileDetailsFragment] nav argument name. */
         const val ARG_PROFILE_ID = "profileId"
     }
 }

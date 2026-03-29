@@ -26,10 +26,8 @@ class HomeViewModel(
     private val _uiState = MutableStateFlow(HomeUiState.initial)
     val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
 
-    /** For ViewPager / Compose collectors — derived from [uiState]. */
     val profiles: Flow<List<ProfileUi>> = uiState.map { it.profiles }
 
-    /** Data Binding: LiveData at the boundary only (XML cannot bind to StateFlow). */
     val pendingSubtitle: LiveData<String> = uiState.map { it.pendingSubtitle }.asLiveData()
     val newBadgeText: LiveData<String> = uiState.map { it.newBadgeText }.asLiveData()
     val newBadgeVisible: LiveData<Boolean> = uiState.map { it.newBadgeVisible }.asLiveData()

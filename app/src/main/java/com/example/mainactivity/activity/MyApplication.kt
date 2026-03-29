@@ -52,6 +52,6 @@ class MyApplication : Application() {
     companion object {
         private const val PREFS_APP = "matrimony_app"
         private const val KEY_SEED_VERSION = "profile_seed_version"
-        private const val CURRENT_SEED_VERSION = 4
+        private const val CURRENT_SEED_VERSION = 5
     }
 }

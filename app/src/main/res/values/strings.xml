@@ -3,6 +3,7 @@
     <string name="splash_content_description">Matrimony splash illustration</string>
     <string name="my_matches">Hi Arjun</string>
     <string name="open_gesture_screen">Open gesture screen</string>
+    <string name="home_overflow_gesture_cd">Open daily recommendations gesture screen</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="no_profiles_left">No profiles left</string>
@@ -71,7 +72,6 @@
     <string name="you_partner_cb_vegetarian">Vegetarian diet</string>
     <string name="you_partner_cb_non_smoker">Non-smoker</string>
     <string name="you_partner_cb_nri_ok">Open to NRI profiles</string>
-    <!-- You sub-pages (sample copy) -->
     <string name="you_page_privacy_intro">Control who can see your profile and contact details.</string>
     <string name="you_page_privacy_phone">Show phone to accepted matches</string>
     <string name="you_page_privacy_photo">Show photos to all members</string>

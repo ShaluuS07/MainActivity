@@ -27,6 +27,8 @@ import kotlinx.coroutines.launch
 
 class RecommendationsFragment : Fragment() {
 
+    private var profileActionToast: Toast? = null
+
     private val viewModel: GestureViewModel by viewModelsOf {
         GestureViewModel((requireActivity().application as MyApplication).recommendationsRepository)
     }
@@ -71,9 +73,21 @@ class RecommendationsFragment : Fragment() {
                     } else {
                         getString(R.string.toast_removed_no, name)
                     }
-                    Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+                    profileActionToast?.cancel()
+                    profileActionToast = Toast.makeText(
+                        requireContext().applicationContext,
+                        message,
+                        Toast.LENGTH_SHORT,
+                    )
+                    profileActionToast?.show()
                 }
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        profileActionToast?.cancel()
+        profileActionToast = null
     }
 }

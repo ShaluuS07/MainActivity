@@ -5,7 +5,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
-/** Tracks profiles dismissed from Home / Recommendations without deleting seed rows from Room. */
 class ProfileDismissStore(context: Context) {
 
     private val prefs = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
@@ -29,9 +28,7 @@ class ProfileDismissStore(context: Context) {
         _dismissedIds.value = emptySet()
     }
 
-    /**
-     * Removes dismissed ids that no longer exist in Room (e.g. DB wiped by migration while prefs kept ids).
-     */
+
     fun retainOnlyExistingIds(validIds: Set<Long>) {
         val next = _dismissedIds.value.intersect(validIds)
         if (next == _dismissedIds.value) return

@@ -34,6 +34,8 @@ class HomeFragment : Fragment() {
 
     private lateinit var pagerAdapter: ProfilePagerAdapter
 
+    private var profileActionToast: Toast? = null
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -53,6 +55,10 @@ class HomeFragment : Fragment() {
             val statusTop = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top
             v.updatePadding(top = statusTop + headerPadTop)
             insets
+        }
+
+        binding.buttonGestureOverflow.setOnClickListener {
+            findNavController().navigate(R.id.recommendationsFragment)
         }
 
         pagerAdapter = ProfilePagerAdapter(
@@ -95,7 +101,13 @@ class HomeFragment : Fragment() {
                     } else {
                         getString(R.string.toast_removed_no, name)
                     }
-                    Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+                    profileActionToast?.cancel()
+                    profileActionToast = Toast.makeText(
+                        requireContext().applicationContext,
+                        message,
+                        Toast.LENGTH_SHORT,
+                    )
+                    profileActionToast?.show()
                 }
             }
         }
@@ -103,6 +115,8 @@ class HomeFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        profileActionToast?.cancel()
+        profileActionToast = null
         binding.viewPager.adapter = null
         _binding = null
     }

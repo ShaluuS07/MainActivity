@@ -11,6 +11,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.NavController
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.mainactivity.mvvm.you.viewmodel.YouTabUiViewModel
@@ -103,8 +104,24 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
-    /** Switches bottom navigation to Home (e.g. from Recommendations toolbar back). */
     fun navigateToHomeTab() {
+        if (navController.currentDestination?.id == R.id.homeFragment) {
+            bottomNav.selectedItemId = R.id.homeFragment
+            return
+        }
+        val popped = navController.popBackStack(R.id.homeFragment, false)
+        if (popped) {
+            bottomNav.selectedItemId = R.id.homeFragment
+            return
+        }
+        navController.navigate(
+            R.id.homeFragment,
+            null,
+            NavOptions.Builder()
+                .setPopUpTo(R.id.nav_graph, true)
+                .setLaunchSingleTop(true)
+                .build(),
+        )
         bottomNav.selectedItemId = R.id.homeFragment
     }
 

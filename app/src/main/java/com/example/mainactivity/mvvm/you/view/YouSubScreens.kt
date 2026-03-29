@@ -99,6 +99,7 @@ fun YouSubPageBody(text: String) {
         text = text,
         style = MaterialTheme.typography.bodyLarge,
         color = MaterialTheme.colorScheme.onSurface,
+        modifier = Modifier.padding(top = 16.dp)
     )
 }
 

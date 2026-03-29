@@ -6,7 +6,6 @@ import com.example.mainactivity.mvvm.profile.model.ProfileEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 
-/** Recommendations / gesture stack: same backing store as Home, feature-specific API boundary. */
 class RecommendationsRepository(
     private val dao: ProfileDao,
     private val dismissStore: ProfileDismissStore,
