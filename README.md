@@ -29,4 +29,15 @@ Sample Android app that demonstrates a **matrimony-style** flow: browse profiles
 - **You** — placeholder tab content
 - **Seeded data** — **10** sample profiles in `ProfileSeed.kt`; DB reseed when `CURRENT_SEED_VERSION` in `MyApplication.kt` is bumped
 
+##  Architecture Overview
+
+The app follows MVVM architecture:
+
+- View → UI (Activities/Fragments/Compose)
+- ViewModel → Handles UI state and business logic
+- Repository → Abstracts data sources
+- Room DB → Local persistence
+
+Data flows from Room → Repository → ViewModel → UI using Flow/LiveData.
+
 
