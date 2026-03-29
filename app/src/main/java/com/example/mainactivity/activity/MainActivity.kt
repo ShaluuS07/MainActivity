@@ -7,13 +7,17 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.forEach
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.navigation.FloatingWindow
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination
+import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.setupWithNavController
+import androidx.navigation.ui.NavigationUI
 import com.example.mainactivity.mvvm.you.viewmodel.YouTabUiViewModel
 import com.example.mainactivity.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -48,7 +52,7 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHost.navController
         bottomNav = findViewById(R.id.bottom_nav)
-        bottomNav.setupWithNavController(navController)
+        setupBottomNavWithNavController()
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
         findViewById<View>(R.id.nav_host_fragment)?.let { host ->
@@ -69,6 +73,7 @@ class MainActivity : AppCompatActivity() {
                 youSubPageOpen = false
             }
             updateBottomNavVisibility()
+            syncBottomNavSelectedItem(destination)
         }
 
         onBackPressedDispatcher.addCallback(
@@ -104,13 +109,55 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
+    /**
+     * Same idea as [NavigationUI.setupWithNavController], but **Home** always uses
+     * [navigateToHomeTab] so we never rely on [NavigationUI.onNavDestinationSelected] alone
+     * (it can fail or leave a bad state with multiple back stacks).
+     *
+     * Also handles **reselect**: if Home is already checked but the current screen is not Home
+     * (common after Home → Recommendations → You → Back), the default listener is never called
+     * for Home — only [NavigationBarView.OnItemReselectedListener] runs, which [setupWithNavController]
+     * does not set — so we add that here.
+     */
+    private fun setupBottomNavWithNavController() {
+        bottomNav.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.homeFragment -> {
+                    navigateToHomeTab()
+                    true
+                }
+                else -> NavigationUI.onNavDestinationSelected(item, navController)
+            }
+        }
+        bottomNav.setOnItemReselectedListener { item ->
+            if (item.itemId == R.id.homeFragment &&
+                navController.currentDestination?.id != R.id.homeFragment
+            ) {
+                navigateToHomeTab()
+            }
+        }
+    }
+
+    private fun syncBottomNavSelectedItem(destination: NavDestination) {
+        if (destination is FloatingWindow) return
+        bottomNav.menu.forEach { item ->
+            if (destination.hierarchy.any { it.id == item.itemId }) {
+                item.isChecked = true
+            }
+        }
+    }
+
+    /**
+     * Returns to Home and syncs the bottom nav.
+     *
+     * Do not use [NavController.popBackStack] to [R.id.homeFragment] alone: with bottom navigation’s
+     * multiple back stacks (save/restore state), Back from **You** after **Home → Recommendations**
+     * can pop only **You** and surface **Recommendations** while the bottom bar still shows Home
+     * selected — then tapping Home is a no-op (reselect). Clearing the graph and navigating to Home
+     * fixes both the fragment and the selection.
+     */
     fun navigateToHomeTab() {
         if (navController.currentDestination?.id == R.id.homeFragment) {
-            bottomNav.selectedItemId = R.id.homeFragment
-            return
-        }
-        val popped = navController.popBackStack(R.id.homeFragment, false)
-        if (popped) {
             bottomNav.selectedItemId = R.id.homeFragment
             return
         }
@@ -118,7 +165,7 @@ class MainActivity : AppCompatActivity() {
             R.id.homeFragment,
             null,
             NavOptions.Builder()
-                .setPopUpTo(R.id.nav_graph, true)
+                .setPopUpTo(R.id.nav_graph, /* inclusive = */ true)
                 .setLaunchSingleTop(true)
                 .build(),
         )
